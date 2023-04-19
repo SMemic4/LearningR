@@ -469,4 +469,140 @@ x %>% map(quietly(log)) %>% str()
 # Mapping over Multiple Arguments
 #################################################################################################################################################################################
 
+# Map2() and pmap() allow for multiple realted inputs to be to be iterated along within parallel
+
+mu <- list(5, 10, -3)
+mu %>% map(rnorm, n = 5) %>% str()
+
+sigma <- list(1, 5, 10)
+
+# Use map2 to iterate over two vectors in parallel
+
+map2(mu, sigma, rnorm, n = 5) %>% str()
+
+# Note that the arguments that vary for each call come before the function, arguments that are the same for every call come after
+
+# pmap() takes a list of arguments to list over
+
+n <- list(1, 3, 5)
+args1 <- list(n, mu, sigma)
+args1 %>% pmap(rnorm) %>% str()
+
+# If the lists of elements are unnamed, pmpa() will use positional matching when call the function making it fragile. 
+
+args2 <- list(mean = mu, sd = sigma, n = n)
+args2 %>% pmap(rnorm) %>% str()
+
+params <- tribble(
+  ~mean, ~sd, ~n,
+  5, 1, 1,
+  10, 5, 3,
+  -3, 10, 5)
+
+params %>% pmap(rnorm)
+
+# As soon as the code becomes more convulsed, placing it within a data frame is a good approach
+
+# Varying the arguments to a function can be done along with varying the function itself
+
+f <- c("runif", "rnorm", "rpois")
+param <- list(list(min = -1, max = 1), list(sd = 5), list(lambda = 10))
+invoke_map(f, param, n = 5) %>% str()
+
+# The first argument is a list of functions or a character vector of function names. The second argument is a list of lists giving the arguments that vary for each function. The subsequent arguments are passed on to every function
+
+# Tribble() can also be used to ti make creating the matching pairs a bit easier. 
+
+sim <- tribble(
+  ~f, ~params,
+  "runif", list(min = -1, max = 1),
+  "rnorm", list(sd = 5),
+  "rpois", list(lambda = 10))
+
+sim %>% mutate(sim = invoke_map(f, params, n = 10))
+
+# Walk is an alternative to map that allows for the call of a function for its side effects rather than it's return value, This is typically done to render output to the screen or save files to disk where the important thing is the action not the teturn value 
+
+x <- list(1, "a", 3)
+
+x %>% walk(print)
+
+# Walk() is generally not the useful compared to walk2() or pwalk(). For example, saving a list of plots and vectors to a corresponding location on a disk
+
+#################################################################################################################################################################################
+# Other Patterns of For Loops
+#################################################################################################################################################################################
+# purrr provides a number of other functions that abstract over other types of for loops. They'll be used less frequently than the map functions, but they're useful to know
+
+# predicate functions 
+# A number of functions work with predicate functions that return either a single TRUE or FALSE
+# keep() and discard() keep elements of the input where the predicate is TRUE or FALSE respectively
+
+iris %>% keep(is.factor) %>% str() # 150 obs. of 1 variables:  Species: Factor w/ 3 levels "setosa","versicolor",..: ...
+
+iris %>% discard(is.factor) %>% str() # 150 obs. of 4 variables:
+
+# Some() and every() determine if the predicate is true for any or for all of the elements
+
+x <- list(1:5, letters, list(10))
+
+x %>% some(is_character) # TRUE
+x %>% some(is_vector) # TRUE
+x %>% every(is_vector) # TRUE
+
+# detect() finds the first element where the predicate is true; detect_index() returns its position
+
+x <- sample(10)
+x # 2  3 10  1  8  4  7  6  5  9
+
+x %>% detect(~. > 9) # 10
+x %>% detect_index(~. > 9) # 3
+
+# head_while() and tail_while() take elements from the start or end of a vector while a predicate is true
+
+x %>% head_while(~. < 5) # 2 3
+x %>% tail_while(~. < 5) # none
+
+# Reduce and accumulate
+
+# When given a complex list that needs to be reduced to a simple list by repeatedly applying a function that reduces a pair to a singleton. This is useful when applying a two_table dplyr verb to multiple things such a list of data frames that need to be reduce to a single data frame by joining the elements together
+
+dfs <- list(
+  age = tibble(name = "John", age = 30),
+  sex = tibble(name = c("John", "Mary"), sex = c("M", "F")),
+  trt = tibble(name = "Mary", treatment = "A"))
+
+dfs %>% reduce(full_join)
+
+# Or when given a list of vectors, and the intersection needs to be found
+
+vs <- list(
+  c(1, 3, 5, 6, 10),
+  c(1, 2, 3, 7, 8, 10),
+  c(1, 2, 3, 4, 8, 9, 10))
+
+vs %>% reduce(intersect) # 1, 3 , 10
+
+# The reduce function takes a "binary" function (A function with two primary inputs) and applies it repeatdely to a list until there is only a single element left
+
+# Accumulate() is similar but keeps all the interim results. it could be used to implement a cumulative sum
+
+x <- sample(10)
+x #  8  6  1 10  7  4  5  2  9  3
+
+x %>% accumulate(`+`) # 8 14 15 25 32 36 41 43 52 55
+
+#################################################################################################################################################################################
+# Exercises
+#################################################################################################################################################################################
+
+
+
+
+
+
+
+
+
+
 
