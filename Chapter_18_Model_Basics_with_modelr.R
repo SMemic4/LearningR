@@ -231,3 +231,23 @@ model_matrix(df, y ~ x1)
 
 model_matrix(df, y ~ x1 - 1)
 
+# The model matrix grows in an unsurprising way when more variables are added to the model
+
+model_matrix(df, y~ x1 + x2)
+
+# The formula notation is sometimes referred to as "Wilkinson-Rogers notation"
+#################################################################################################################################################################################
+# Categorical Variables
+#################################################################################################################################################################################
+# Generating a function from a formula is straightforward when the predictors are continuous, but becomes more complicated when the predictor is categorical. R will simply convert the value to 1 or 0
+
+df <- tribble (~sex, ~response,
+               "male", 1,
+               "female", 2,
+               "male", 1)
+model_matrix(df, response ~sex) # Note that R only creates a sexmale column and not a sexfemale column
+
+# Fortunately, however, focusing on visualizing prediction will work fine instead of worrying about the exact parameterization
+
+ggplot(sim2) + geom_point(aes(x, y))
+
