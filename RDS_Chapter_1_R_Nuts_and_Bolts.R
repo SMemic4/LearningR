@@ -213,6 +213,61 @@ is.nan(x) # FALSE FALSE FALSE  TRUE FALSE FALSE
 ####################################################################################################################################################################
 # Data Frames
 ####################################################################################################################################################################
+# Data Frames are used to store tabular data in R
+# Data frames are represented as a special type of list where every element of the list has to have the same length.
+# Each element of the list can be thought of as a column and the length of each element of the list is the number of rows
+# Unlike matrices, data frames can store different classes of objects in each column. Matrices must have every element be the same class (all integers or all numeric)
+# In addition to column names, indicating the names of the variables or predictors, data frames have a special attribute called row.names which indicate information about each row of the data frame
+# Data frames can be created by reading in a dataset using the read.table() or read.csv(), however data frames can also be created explicitly with the data.frame() function or they can be coerced from other types of objects like lists
+# Data frames can be converted to a matrix by calling data.matrix()
+
+x <- data.frame(kiki = 1:4, colors = c(T, T, F, F))
+x
+nrow(x) # 4
+ncol(x) # 4
+
+####################################################################################################################################################################
+# Names
+####################################################################################################################################################################
+# R objects can have names, which is very useful for writing readable code and self-describing objects
+
+x <- 1:3
+names(x) # NULL
+names(x) <- c("One", "Two", "Three")
+x
+
+# Lists can also have names
+x <- list("One" = 1, "Two" = 2, "Three" = 3)
+x
+
+# Matrices can have both column and row names
+
+m <- matrix(1:4, nrow = 2, ncol = 2)
+dimnames(m) <- list(c("A", "B"), c("C", "D"))
+m
+
+# Column names and row names can be set separately using the colnames() and rownames() functions
+
+colnames(m) <- c("X", "Y")
+rownames(m) <- c("H", "J")
+m
+
+# Note that for data frames, there is a separate function for setting the row names, the row.names() function
+# Also, data frames do not have column names, so to set the column names of a data frame use the names() function
+
+####################################################################################################################################################################
+# Summary
+####################################################################################################################################################################
+# All R objects can have attributes that help describe what is in the object
+# The most useful attributes is names, such as column and row names in a data frame, or simply names in a vector or list
+# Attributes like dimensions are also important as they can modify the behavior of objects like turning a vector into a matrix
+
+####################################################################################################################################################################
+# End of Chapter 1
+####################################################################################################################################################################
+
+
+
 
 
 
