@@ -22,6 +22,23 @@
 # rename: rename variables in a data frame
 # mutate: add new variable/columns or transform existing variables 
 # summarize: generate summary statistics of different variables in the data frame, possibly within strata
+# %>%: the "pipe" operator is used to connect multiple verb actions together into a pipeline
+
+####################################################################################################################################################################
+# Common dplyr Function Properties
+####################################################################################################################################################################
+# All of the functions discussed in this chapter share a few common characteristics:
+# The first argument is a data frame
+# The subsequent arguments describe what to do with the data frame specified in the first argument, and columns in the data frame can be referred to directly without using the $ operator
+# The return result of a function is a new data frame
+# Data frames must be properly formatted and annotated for this to be useful. In particular, the data must be tidy. In short, there should be one observation per row, and each column should represent a feature of characteristic of that observation 
+
+####################################################################################################################################################################
+# Installing the dplyr Package
+####################################################################################################################################################################
+
+
+
 
 
 
