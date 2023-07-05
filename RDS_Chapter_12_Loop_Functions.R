@@ -180,3 +180,44 @@ str(split(x, list(f1, f2), drop = TRUE)) # List of 6
 ####################################################################################################################################################################
 # tapply()
 ####################################################################################################################################################################
+# The apply() function is used to evaluate a function (often an anonymous one) over the margins of an array
+# It is most often used to apply a function to the rows or columns of a matrix (which is a 2 dimensional array)
+# However, it can be used with general arrays, for example, to take the average of an array of matrices 
+# Using apply() is not really faster than writing a loop but it works in one line and is highly compact
+
+str(apply) # function (X, MARGIN, FUN, ..., simplify = TRUE) 
+
+# The arguments to apply() are:
+#  X is an array
+#  MARGIN is an integer vector indicating which margins should be “retained”.
+#  FUN is a function to be applied
+#  ... is for other arguments to be passed to FUN
+
+# Here a 20 by 10 matrix of Normal random numbers are created. Afterwards the mean of each column is computed 
+
+x <- matrix(rnorm(200), 20, 10)
+x
+apply(x, 2, mean) #  0.22676838  0.02042738 -0.40917072  0.03813363 -0.51618257  0.07410771 -0.10560975  0.29675266 -0.13286302 -0.13705602
+
+# The sum of each row can be computed 
+
+apply(x, 1, sum) # -2.04710929 -2.75999340 -4.38225122  1.90656787  3.52420613 -3.44093586  0.10979091  0.37471904 -1.28442083  1.81000239 -1.71848956  0.02521046  0.92440352  3.29409663  0.41002677 [16]  1.14737055 -8.17710844 -1.46341931 -0.73121912 -0.41529346
+
+# Note that in both calls to apply(), the return value was a vector of numbers
+# Additionally, the second argument is either a 1 or a 2, depending on whether statistics are wanted on rows or columns. What does the second argument apply to apply()
+# The MARGIN argument essentially indicates to apply() which dimension of the array to preserve or retain. So when taking the mean of each column, it is specified as:
+
+apply(x, 2, mean)
+
+# Because the first dimension (the rows) are collapsed by taking the mean, and the number of columns is to be preserved
+# Similarly when wanting the sum of rows:
+
+apply(x, 1, sum)
+
+# This collapses the columns (The second dimension) and preserves the number of rows (the first dimension)
+
+####################################################################################################################################################################
+# Col/Row Sums and Means
+####################################################################################################################################################################
+
+
