@@ -252,4 +252,39 @@ rowMeans(a, dims = 2)
 ####################################################################################################################################################################
 # mapply()
 ####################################################################################################################################################################
+# The mapply() function is a multivariate apply of sort which applies a function in parallel over a set of arguments
+# Recall that lapply() and friends only iterate over a single R object
+# To iterate over multiple R objects in parallel use mapply()
 
+str(mapply) # function (FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)  
+
+# The arguments to mapply() are:
+# FUN is a function to apply
+# ... contains R objects to apply over
+# MoreArgs is a list of other arguments to FUN.
+# SIMPLIFY indicates whether the result should be simplified
+
+# The mapply() function has a different argument order from lapply() because the function to apply comes first rather than the object to iterate over
+# The R objects over the function is applied to are given in the ... argument because it can apply over an arbitrary number of R objects 
+# For example it is tedious to type the following:
+
+list(rep(1, 4), rep(2, 3), rep(3, 2), rep(4, 1))
+
+# With mapply(), the following code can be written:
+
+mapply(rep, 1:4, 4:1)
+
+# This passes the sequence 1:4 to the first argument of rep() and the sequence 4:1 to the second argument.
+# An example for simulating random Normal variables
+
+noise <- function(n, mean, sd) {
+   rnorm(n, mean, sd)
+}
+
+# Simulate 5 random numbers:
+
+noise(5, 1, 2)
+
+# This only simulates 1 set of numbers, not 5:
+
+noise(1:5, 1:5, 2)
