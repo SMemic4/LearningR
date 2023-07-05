@@ -219,5 +219,37 @@ apply(x, 1, sum)
 ####################################################################################################################################################################
 # Col/Row Sums and Means
 ####################################################################################################################################################################
+# For the special case of column/row sums and column/row means of matrices, there are useful shortcuts
+# rowSums = apply(x, 1, sum)
+# rowMeans = apply(x, 1, mean)
+# colSums = apply(x, 2, sum)
+# colMeans = apply(x, 2, mean)
+# The shortcut functions are heavily optimized and are much faster, but this won't be noticed unless working with a large matrix
+# Another nice aspect of these functions is that they are a bit more descriptive
+# It's arguably more clear to write colMeans(x) in code than apply(x,2, mean)
 
+####################################################################################################################################################################
+# Other Ways to Apply
+####################################################################################################################################################################
+# It's possible to take more than sum and means with the apply() function
+# For example, the quantiles of the rows of a matrix can be computed using the quantile() function
+
+x <- matrix(rnorm(200), 20, 10)
+apply(x, 1, quantile, probs = c(0.25, 0.75))
+
+# For a higher dimensional example, create an array of 2 by 2 by 10 and compute the average of the matrices in the array 
+
+a <- array(rnorm(2 * 2 * 10), c(2, 2, 10))
+apply(a, c(1, 2), mean)
+
+# In the call to apply(), the MARGIN argument indicates to preserve the first and second dimensions and to collapse the thrid dimension by taking the mean
+# There is a faster way to do this specific operation via the colMeans() function
+
+rowMeans(a, dims = 2)
+
+# rowMeans() is faster for larger arrays
+
+####################################################################################################################################################################
+# mapply()
+####################################################################################################################################################################
 
