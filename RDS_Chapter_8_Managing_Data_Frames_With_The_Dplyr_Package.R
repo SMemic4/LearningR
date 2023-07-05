@@ -36,7 +36,49 @@
 ####################################################################################################################################################################
 # Installing the dplyr Package
 ####################################################################################################################################################################
+# The dplyr package can be installed from CRAN or from Github using the devtools package and install_github() function
 
+####################################################################################################################################################################
+# Select()
+####################################################################################################################################################################
+# This chapter will be using the dataset containing air pollution and temperature data for the city of Chicago
+
+chicago <- readRDS("chicago.rds")
+
+dim(chicago) # There are 6940 rows and 8 columns or observations
+str(chicago) # It is a data frame with 8 variables
+
+# The select function can be used to select columns of a data frame to be specifically focused on
+# Often times a large data frame will contain all the data but any given analysis might only use a subset of variables or observations
+# The select() function allows to get the few columns needed
+
+# Suppose an individual wanted to select the first 3 columns only. There are a few ways to do this, like using numerical indices or the names directly
+
+chicago %>% select(1:3)
+chicago %>% select(city, tmpd, dptp)
+subset <- chicago %>% select(city:dptp) # Note that the : normally cannot be used with names or strings but inside the select() function it can be used to specify a range of variable names
+head(subset)
+
+# Variables can also be omitted using the select() function using the negative sign
+
+select(chicago, -(city:dptp)) # This indicates to include every variable except the variables city through dptp
+
+# The select() function allows a special syntax that allows for columns to be selected on specific variable names. 
+# For example selecting every variable that ends with a "2"
+
+subset <- chicago %>% select(ends_with("2"))
+head(subset)
+
+# Or selecting eery variable that starts with "d":
+
+subset <- chicago %>% select(starts_with("d"))
+head(subset)
+
+# More general regular expressions can be used if necessary. Use ?select for more details 
+
+####################################################################################################################################################################
+# Filter()
+####################################################################################################################################################################
 
 
 
