@@ -288,3 +288,44 @@ noise(5, 1, 2)
 # This only simulates 1 set of numbers, not 5:
 
 noise(1:5, 1:5, 2)
+
+####################################################################################################################################################################
+# Vectorizing a Function
+####################################################################################################################################################################
+# The mapply() function can be used to automatically vectorize a function
+# This means that it can take a function that typically only takes a single arguments and creates a new function that can take vector arguments. This is useful for plotting functions
+# Here's an example of a function that computes the sum of squares given some data, a mean parameter and a standard deviation
+
+sumsq <- function(mu, sigma, x) {
+ sum(((x - mu) / sigma)^2)
+}
+
+# The function takes a mean (mu), a standard deviation (sigma) and some data in a vector (x) 
+# Many statistical applications attempt to minimize the optimal sum of squares to find the optimal mu and sigma
+# But before that, the plot for the function is evaluated using many different values of mu or sigma
+# However passing a vector of mus or sigmas wont work with this function because it's not vectorized
+
+x <- rnorm(100) # Generating some data
+sumsq(1:10, 1:10, x) # Not the intended result
+
+# Note that sumsq() only produced one value instead of 10 values
+# However, using mapply() can result in the intended result
+
+mapply(sumsq, 1:10, 1:10, MoreArgs = list(x = x))
+
+# There is even a function in R called Vectorize() that automatically can create a vectorized version of a function
+
+vsumsq <- Vectorize(sumsq, c("mu", "sigma"))
+vsumsq(1:10, 1:10, x)
+
+####################################################################################################################################################################
+# Summary
+####################################################################################################################################################################
+# Loop functions in R are very powerful because they conduct a series of operations on data using a compact form
+# The operation of a loop function involves iterating over an R object (list, vector, matrix) and applying a function to each element of the object, and collating the result and returning the collated results
+# Loop functions make heavy use of anonymous functions, which exist for the life of the loop function but are not stored anywhere else
+# The split() function can be used to divide an R object into subsets determined by another variable which can subsequently be looped over using loop functions
+
+####################################################################################################################################################################
+# End of Chapter 12
+####################################################################################################################################################################
